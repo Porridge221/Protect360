@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
+
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 
 class DesignCanvas extends CustomPainter {
   ui.Image? bgImage;
@@ -9,7 +14,11 @@ class DesignCanvas extends CustomPainter {
   double screenH = 0;
   double offsetX = 0;
   double offsetY = 0;
-  DesignCanvas(this.bgImage, this.imageCount, this.selectedIndex, this.offsetX, this.offsetY, this.screenW, this.screenH);
+  double zoom = 0;
+  DesignCanvas(this.bgImage, this.imageCount, this.selectedIndex, this.offsetX, this.offsetY, this.screenW, this.screenH, this.zoom) {
+    screenW = screenW * zoom;
+    screenH = screenH * zoom;
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -27,6 +36,33 @@ class DesignCanvas extends CustomPainter {
     drawFill(canvas, offset, size);
     drawFrame(canvas, offset);
     drawDots(canvas, offset);
+    saveImage(canvas, size, offsetBG);
+  }
+
+  Future saveImage(Canvas canvas, Size size, Offset offset) async {
+    var rectOffset = Offset(W / zoom / 2, H / zoom / 2);
+    var rect = Rect.fromCenter(center: rectOffset, width: W / zoom, height: H / zoom);
+    Size size1 = rect.size;
+
+    ui.PictureRecorder recorder = ui.PictureRecorder();
+    Canvas can = Canvas(recorder, rect);
+    drawSavingImage(can, offset, size1);
+    ui.Image img = await recorder.endRecording().toImage(((size1.width)).toInt(), ((size1.height)).toInt());
+    Directory dir = (await getDownloadsDirectory())!;
+    var file = File('${dir.path}/image1.png');
+    var res = await file.writeAsBytes((await img.toByteData(format: ui.ImageByteFormat.png))!.buffer.asInt8List(), flush: true);
+  }
+
+  void drawSavingImage(Canvas canvas, Offset offset, Size size) {
+    if (this.bgImage != null) {
+      var rect = Rect.fromCenter(center: offset, width: W / zoom, height: H / zoom);
+
+      var imageRect = Rect.fromCenter(center: offset, width: screenW, height: screenH);
+      print("DRAWGB");
+      print(rect);
+      // canvas.drawImage(this.bgImage, Offset(0, 0), Paint());
+      paintSavingImage(bgImage!, rect, imageRect, canvas, Paint(), BoxFit.contain);
+    }
   }
 
   @override
@@ -118,6 +154,18 @@ class DesignCanvas extends CustomPainter {
         Alignment.center.inscribe(sizes.source, Offset.zero & imageSize);
     final Rect outputSubrect =
         Alignment.center.inscribe(sizes.destination, outputRect);
+    canvas.drawImageRect(image, inputSubrect, outputSubrect, paint);
+  }
+
+  void paintSavingImage(
+      ui.Image image, Rect outputRect, Rect imageRect, Canvas canvas, Paint paint, BoxFit fit) {
+    final Size imageSize =
+        Size(image.width.toDouble(), image.height.toDouble());
+    final FittedSizes sizes = applyBoxFit(fit, imageSize, imageRect.size);
+    final Rect inputSubrect =
+        Alignment.center.inscribe(sizes.destination, outputRect);
+    final Rect outputSubrect =
+        Alignment.topLeft.inscribe(outputRect.size, outputRect);
     canvas.drawImageRect(image, inputSubrect, outputSubrect, paint);
   }
 }
