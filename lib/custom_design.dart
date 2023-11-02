@@ -22,6 +22,7 @@ class _CustomDesignState extends State<CustomDesign> {
   double offsetY = 0;
 
   double zoom = 1;
+  double initZoom = 1;
 
   double zoomX = 1;
   double zoomY = 1;
@@ -117,10 +118,14 @@ class _CustomDesignState extends State<CustomDesign> {
                 offsetY += details.focalPointDelta.dy;
             });
           } else if (details.pointerCount == 2) {
-            setState(() {
-              zoom += (details.scale - scale);
-            });
-            scale = details.scale;
+            if ((zoom + (details.scale - scale) > zoomX) && (zoom + (details.scale - scale) > zoomY)) {
+              setState(() {
+                zoom += (details.scale - scale);
+                //offsetX = (zoom - initZoom) / zoom * offsetX * 10;
+                //offsetY = (zoom - initZoom) / zoom * offsetY * 10;
+              });
+              scale = details.scale;
+            }
           }
           print(details.scale);
           print(details.focalPointDelta);
@@ -143,23 +148,26 @@ class _CustomDesignState extends State<CustomDesign> {
           selectedImage = img;
 
           var offsetBG = Offset(MediaQuery.of(context).size.width / 2, MediaQuery.of(context).size.height / 2);
-            var rect = Rect.fromCenter(center: offsetBG, width: MediaQuery.of(context).size.width * zoom, height: MediaQuery.of(context).size.height * zoom);
-            
-            final Size imageSize = Size(selectedImage!.width.toDouble(), selectedImage!.height.toDouble());
-            final FittedSizes sizes = applyBoxFit(BoxFit.contain, imageSize, rect.size);
-            final Rect outputSubrect =
-                    Alignment.center.inscribe(sizes.destination, rect);
-            
-            print(outputSubrect);
-            var offset = Offset(MediaQuery.of(context).size.width / 2, MediaQuery.of(context).size.height / 2);
-            var aspect = MediaQuery.of(context).size.width / 110.0 * 0.6;
-            var W = 110.0 * aspect;
-            var H = 200.0 * aspect;
-            var borderRect = Rect.fromCenter(center: offset, width: W, height: H);
+          var rect = Rect.fromCenter(center: offsetBG, width: MediaQuery.of(context).size.width * zoom, height: MediaQuery.of(context).size.height * zoom);
+          
+          final Size imageSize = Size(selectedImage!.width.toDouble(), selectedImage!.height.toDouble());
+          final FittedSizes sizes = applyBoxFit(BoxFit.contain, imageSize, rect.size);
+          final Rect outputSubrect =
+                  Alignment.center.inscribe(sizes.destination, rect);
+          
+          print(outputSubrect);
+          var offset = Offset(MediaQuery.of(context).size.width / 2, MediaQuery.of(context).size.height / 2);
+          var aspect = MediaQuery.of(context).size.width / 110.0 * 0.6;
+          var W = 110.0 * aspect;
+          var H = 200.0 * aspect;
+          var borderRect = Rect.fromCenter(center: offset, width: W, height: H);
 
-            zoomY = (borderRect.bottom - borderRect.top) / (outputSubrect.bottom - outputSubrect.top);
-            zoomX = (borderRect.right - borderRect.left) / (outputSubrect.right - outputSubrect.left);
-            zoom = zoomX > zoomY ? zoomX : zoomY;
+          zoomY = (borderRect.bottom - borderRect.top) / (outputSubrect.bottom - outputSubrect.top);
+          zoomX = (borderRect.right - borderRect.left) / (outputSubrect.right - outputSubrect.left);
+          zoom = zoomX > zoomY ? zoomX : zoomY;
+          initZoom = zoom;
+          print('INITZOOM');
+          print(zoom);
         });
       });
     });
