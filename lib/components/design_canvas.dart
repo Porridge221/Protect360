@@ -29,7 +29,6 @@ class DesignCanvas extends CustomPainter {
     W = 110.0 * aspect;
     H = 200.0 * aspect;
 
-    print(offsetBG);
     drawBGImage(canvas, offsetBG);
     //drawImage(canvas, offset);
     //drawColor(canvas);
@@ -58,8 +57,6 @@ class DesignCanvas extends CustomPainter {
       var rect = Rect.fromCenter(center: offset, width: W / zoom, height: H / zoom);
 
       var imageRect = Rect.fromCenter(center: offset, width: screenW, height: screenH);
-      print("DRAWGB");
-      print(rect);
       // canvas.drawImage(this.bgImage, Offset(0, 0), Paint());
       paintSavingImage(bgImage!, rect, imageRect, canvas, Paint(), BoxFit.contain);
     }
@@ -94,7 +91,6 @@ class DesignCanvas extends CustomPainter {
   var H = 200.0 * 1;
   void drawFrame(Canvas canvas, Offset offset) {
     var rect = Rect.fromCenter(center: offset, width: W, height: H);
-    print(rect);
     var border = Paint()
       ..color = Colors.black
       ..strokeWidth = 10.0
@@ -116,8 +112,6 @@ class DesignCanvas extends CustomPainter {
   void drawBGImage(Canvas canvas, Offset offset) {
     if (this.bgImage != null) {
       var rect = Rect.fromCenter(center: offset, width: screenW, height: screenH);
-      print("DRAWGB");
-      print(rect);
       // canvas.drawImage(this.bgImage, Offset(0, 0), Paint());
       paintImage(bgImage!, rect, canvas, Paint(), BoxFit.contain);
     }
