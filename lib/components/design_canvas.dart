@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter_file_dialog/flutter_file_dialog.dart';
+//import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 
 class DesignCanvas extends CustomPainter {
   ui.Image? bgImage;
