@@ -24,13 +24,13 @@ class PreViewScreen extends StatelessWidget {
                         children: [
                           FittedBox(
                             fit: BoxFit.contain,
-                            child: Preview(),
+                            child: Preview(phoneType: 'Iphone 11 Pro'),
                           ),
                           SizedBox(
                             width: 30,
                           ),
                           FittedBox(
-                            child: Preview(),
+                            child: Preview(phoneType: 'Galaxy_M52'),
                             fit: BoxFit.contain
                           ),
                         ],
@@ -47,14 +47,14 @@ class PreViewScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FittedBox(
-                            child: Preview(),
+                            child: Preview(phoneType: 'Huawei_P50_Pro'),
                             fit: BoxFit.contain
                           ),
                           SizedBox(
                             width: 30,
                           ),
                           FittedBox(
-                            child: Preview(),
+                            child: Preview(phoneType: 'iPhone_14_Pro_Max'),
                             fit: BoxFit.contain
                           ),
                         ],

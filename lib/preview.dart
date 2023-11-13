@@ -6,7 +6,8 @@ import 'package:flutter_application_1/components/preview_canvas.dart';
 // import 'components/design_canvas.dart';
 
 class Preview extends StatefulWidget {
-  const Preview({super.key});
+  final String phoneType;
+  const Preview({super.key, required this.phoneType});
 
   @override
   _PreviewState createState() => _PreviewState();
@@ -34,10 +35,27 @@ class _PreviewState extends State<Preview> {
   double zoomY = 1;
 
   //late DesignCanvas canvas;
+
+  double overZoom = 1.11;
   
   @override
   void initState() {
     super.initState();
+    switch (widget.phoneType) {
+      case 'Galaxy_M52':
+        overZoom = 1.11;
+        break;
+      case 'Iphone 11 Pro':
+        overZoom = 1.24;
+        break;
+      case 'Huawei_P50_Pro':
+        overZoom = 1.14;
+        break;
+      case 'iPhone_14_Pro_Max':
+        overZoom = 1.123;
+        break;
+      default:
+    }
     loadImages();
   }
 
@@ -46,12 +64,12 @@ class _PreviewState extends State<Preview> {
     return CustomPaint(
         child: Container(height: MediaQuery.of(context).size.height / 2 - 50,
       width: MediaQuery.of(context).size.width / 2 - 50),
-        painter: PreviewCanvas(selectedImage, phoneImage, shadowsImage, shadowsImage_1, phoneOverImage, images.length, selectedIndex, offsetX, offsetY, MediaQuery.of(context).size.width / 2, MediaQuery.of(context).size.height / 2, zoom),
+        painter: PreviewCanvas(selectedImage, phoneImage, shadowsImage, shadowsImage_1, phoneOverImage, images.length, selectedIndex, offsetX, offsetY, MediaQuery.of(context).size.width / 2, MediaQuery.of(context).size.height / 2, zoom, overZoom),
       );
   }
 
   void loadImages() {
-    rootBundle.load("assets/img4.jpg").then((bd) {
+    rootBundle.load("assets/img1.jpg").then((bd) {
       decodeImageFromList(bd.buffer.asUint8List()).then((img) {
         setState(() {
           selectedImage = img;
@@ -77,28 +95,28 @@ class _PreviewState extends State<Preview> {
         });
       });
     });
-    rootBundle.load("assets/Iphone_11_Pro_over.png").then((bd) {
+    rootBundle.load("assets/${widget.phoneType}/phone_over.png").then((bd) {
       decodeImageFromList(bd.buffer.asUint8List()).then((img) {
         setState(() {
           phoneOverImage = img;
         });
       });
     });
-    rootBundle.load("assets/Iphone_11_Pro_transparent_1.png").then((bd) {
+    rootBundle.load("assets/${widget.phoneType}/phone_transparent.png").then((bd) {
       decodeImageFromList(bd.buffer.asUint8List()).then((img) {
         setState(() {
           phoneImage = img;
         });
       });
     });
-    rootBundle.load("assets/Iphone_11_Pro_shadows.png").then((bd) {
+    rootBundle.load("assets/${widget.phoneType}/phone_effect.png").then((bd) {
       decodeImageFromList(bd.buffer.asUint8List()).then((img) {
         setState(() {
           shadowsImage = img;
         });
       });
     });
-    rootBundle.load("assets/Iphone_11_Pro_shadows_1.png").then((bd) {
+    rootBundle.load("assets/${widget.phoneType}/phone_shadows.png").then((bd) {
       decodeImageFromList(bd.buffer.asUint8List()).then((img) {
         setState(() {
           shadowsImage_1 = img;

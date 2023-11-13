@@ -19,8 +19,8 @@ class PreviewCanvas extends CustomPainter {
   double offsetX = 0;
   double offsetY = 0;
   double zoom = 0;
-  PreviewCanvas(this.bgImage, this.phoneImage, this.shadowsImage, this.shadowsImage_1, this.phoneOverImage, this.imageCount, this.selectedIndex, this.offsetX, this.offsetY, this.screenW, this.screenH, this.zoom) {
-    screenW = screenW * zoom;
+  double overZoom = 1.11;
+  PreviewCanvas(this.bgImage, this.phoneImage, this.shadowsImage, this.shadowsImage_1, this.phoneOverImage, this.imageCount, this.selectedIndex, this.offsetX, this.offsetY, this.screenW, this.screenH, this.zoom, this.overZoom) {    screenW = screenW * zoom;
     screenH = screenH * zoom;
   }
 
@@ -65,7 +65,7 @@ class PreviewCanvas extends CustomPainter {
       paintImage(bgImage!, rect, canvas, Paint(), BoxFit.contain);
     }
     if (this.phoneOverImage != null) {
-      var rect = Rect.fromCenter(center: offset, width: screenW * 1.24, height: screenH * 1.24);
+      var rect = Rect.fromCenter(center: offset, width: screenW * overZoom, height: screenH * overZoom);
       // canvas.drawImage(this.bgImage, Offset(0, 0), Paint());
       paintImage(phoneOverImage!, rect, canvas, Paint(), BoxFit.contain);
     }

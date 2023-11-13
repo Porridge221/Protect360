@@ -66,11 +66,10 @@ flutter:
     - assets/img2.jpg
     # - assets/img3.jpg
     - assets/img4.jpg
-    - assets/Iphone_11_Pro_transparent_1.png
-    - assets/Iphone_11_Pro_shadows.png
-    - assets/Iphone_11_Pro_shadows_1.png
-    - assets/Iphone_11_Pro_over.png
-    - assets/galaxy M52/
+    - assets/Iphone 11 Pro/
+    - assets/Galaxy_M52/
+    - assets/Huawei_P50_Pro/
+    - assets/iPhone_14_Pro_Max/
   #   - img2.jpg
   #   - img3.jpg
 
