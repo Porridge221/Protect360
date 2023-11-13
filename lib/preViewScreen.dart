@@ -6,7 +6,7 @@ class PreViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SafeArea(
         child: Column(
           children: [
@@ -23,19 +23,15 @@ class PreViewScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FittedBox(
+                            fit: BoxFit.contain,
                             child: Preview(),
-                            fit: BoxFit.contain
                           ),
                           SizedBox(
                             width: 30,
                           ),
-                          InkWell(
-                            // child: SvgPicture.asset("assets/svg/1.svg"),
-                            child: Image.asset(
-                              "assets/img1.jpg",
-                              fit: BoxFit.scaleDown,
-                            ),
-                            onTap: () {},
+                          FittedBox(
+                            child: Preview(),
+                            fit: BoxFit.contain
                           ),
                         ],
                       ),
@@ -50,26 +46,16 @@ class PreViewScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          InkWell(
-                            // child: SvgPicture.asset("assets/svg/1.svg"),
-                            child: Image.asset(
-                              "assets/img1.jpg",
-                              fit: BoxFit.scaleDown,
-                            ),
-
-                            onTap: () {},
+                          FittedBox(
+                            child: Preview(),
+                            fit: BoxFit.contain
                           ),
                           SizedBox(
                             width: 30,
                           ),
-                          InkWell(
-                            // child: SvgPicture.asset("assets/svg/1.svg"),
-                            child: Image.asset(
-                              "assets/img1.jpg",
-                              fit: BoxFit.scaleDown,
-                            ),
-
-                            onTap: () {},
+                          FittedBox(
+                            child: Preview(),
+                            fit: BoxFit.contain
                           ),
                         ],
                       ),

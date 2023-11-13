@@ -39,13 +39,16 @@ class DesignCanvas extends CustomPainter {
   }
 
   Future saveImage(Canvas canvas, Size size, Offset offset) async {
-    var rectOffset = Offset(W / zoom / 2, H / zoom / 2);
-    var rect = Rect.fromCenter(center: rectOffset, width: W / zoom, height: H / zoom);
+    //var rectOffset = Offset(W / zoom / 2, H / zoom / 2);
+    var rect = Rect.fromPoints(const Offset(0,0), Offset(W,H));
+    //var rect = Rect.fromCenter(center: offset, width: W, height: H);
+    //var rect = Rect.fromCenter(center: rectOffset, width: W / zoom, height: H / zoom);
     Size size1 = rect.size;
 
     ui.PictureRecorder recorder = ui.PictureRecorder();
     Canvas can = Canvas(recorder, rect);
     drawSavingImage(can, offset, size1);
+    //drawBGImage(can, offset);
     ui.Image img = await recorder.endRecording().toImage(((size1.width)).toInt(), ((size1.height)).toInt());
     Directory dir = (await getDownloadsDirectory())!;
     var file = File('${dir.path}/image1.png');
@@ -54,13 +57,17 @@ class DesignCanvas extends CustomPainter {
 
   void drawSavingImage(Canvas canvas, Offset offset, Size size) {
     if (this.bgImage != null) {
-      var rect = Rect.fromCenter(center: offset, width: W / zoom, height: H / zoom);
+      //var offset1 = Offset(size.width / 2, size.height / 2);
+      //var outputRect = Rect.fromCenter(center: offset1, width: W, height: H);
+      var outputRect = Rect.fromPoints(const Offset(0,0), Offset(W,H));
+      var imageSubRect = Rect.fromCenter(center: offset, width: W, height: H);
 
       var imageRect = Rect.fromCenter(center: offset, width: screenW, height: screenH);
       // canvas.drawImage(this.bgImage, Offset(0, 0), Paint());
-      paintSavingImage(bgImage!, rect, imageRect, canvas, Paint(), BoxFit.contain);
+      paintSavingImage(bgImage!, outputRect, imageRect, imageSubRect, canvas, Paint(), BoxFit.contain);
     }
   }
+
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
@@ -117,6 +124,14 @@ class DesignCanvas extends CustomPainter {
     }
   }
 
+  void drawBGImage1(Canvas canvas, Offset offset) {
+    if (this.bgImage != null) {
+      var rect = Rect.fromCenter(center: offset, width: W, height: H);
+      // canvas.drawImage(this.bgImage, Offset(0, 0), Paint());
+      paintImage(bgImage!, rect, canvas, Paint(), BoxFit.contain);
+    }
+  }
+
   void drawDots(Canvas canvas, Offset offset) {
     var pOff = Paint()
       ..strokeWidth = 2.0
@@ -152,14 +167,14 @@ class DesignCanvas extends CustomPainter {
   }
 
   void paintSavingImage(
-      ui.Image image, Rect outputRect, Rect imageRect, Canvas canvas, Paint paint, BoxFit fit) {
+      ui.Image image, Rect outputRect, Rect imageRect, Rect imageSubRect, Canvas canvas, Paint paint, BoxFit fit) {
     final Size imageSize =
         Size(image.width.toDouble(), image.height.toDouble());
-    final FittedSizes sizes = applyBoxFit(fit, imageSize, imageRect.size);
+    final FittedSizes sizes = applyBoxFit(fit, imageSize, imageSubRect.size);
     final Rect inputSubrect =
-        Alignment.center.inscribe(sizes.destination, outputRect);
+        Alignment.center.inscribe(sizes.source, imageSubRect);
     final Rect outputSubrect =
         Alignment.topLeft.inscribe(outputRect.size, outputRect);
-    canvas.drawImageRect(image, inputSubrect, outputSubrect, paint);
+    canvas.drawImageRect(image, inputSubrect, outputRect, paint);
   }
 }
