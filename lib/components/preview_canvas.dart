@@ -20,9 +20,7 @@ class PreviewCanvas extends CustomPainter {
   double offsetY = 0;
   double zoom = 0;
   double overZoom = 1.11;
-  PreviewCanvas(this.bgImage, this.phoneImage, this.shadowsImage, this.shadowsImage_1, this.phoneOverImage, this.imageCount, this.selectedIndex, this.offsetX, this.offsetY, this.screenW, this.screenH, this.zoom, this.overZoom) {    screenW = screenW * zoom;
-    screenH = screenH * zoom;
-  }
+  PreviewCanvas(this.bgImage, this.phoneImage, this.shadowsImage, this.shadowsImage_1, this.phoneOverImage, this.imageCount, this.selectedIndex, this.offsetX, this.offsetY, this.screenW, this.screenH, this.zoom, this.overZoom);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -55,27 +53,33 @@ class PreviewCanvas extends CustomPainter {
 
   void drawBGImage(Canvas canvas, Offset offset) {
     if (this.shadowsImage_1 != null) {
-      var rect = Rect.fromCenter(center: offset, width: screenW, height: screenH);
+      //var rect = Rect.fromCenter(center: offset, width: screenW, height: screenH);
+      var rect = Rect.fromLTRB(0,0,screenW, screenH);
       // canvas.drawImage(this.bgImage, Offset(0, 0), Paint());
       paintImage(shadowsImage_1!, rect, canvas, Paint(), BoxFit.contain);
     }
     if (this.bgImage != null) {
-      var rect = Rect.fromCenter(center: offset, width: screenW * 1.07, height: screenH * 1.07);
+      var rect = Rect.fromCenter(center: offset, width: screenW * overZoom, height: screenH * overZoom);
       // canvas.drawImage(this.bgImage, Offset(0, 0), Paint());
       paintImage(bgImage!, rect, canvas, Paint(), BoxFit.contain);
     }
     if (this.phoneOverImage != null) {
-      var rect = Rect.fromCenter(center: offset, width: screenW * overZoom, height: screenH * overZoom);
+      //var rect = Rect.fromCenter(center: offset, width: screenW * overZoom, height: screenH * overZoom);
+      var offsetOver = Offset(screenW / 2, screenH / 2);
+      var rect = Rect.fromCenter(center: offsetOver, width: screenW * overZoom, height: screenH * overZoom);
       // canvas.drawImage(this.bgImage, Offset(0, 0), Paint());
       paintImage(phoneOverImage!, rect, canvas, Paint(), BoxFit.contain);
     }
     if (this.phoneImage != null) {
-      var rect = Rect.fromCenter(center: offset, width: screenW, height: screenH);
+      //var rect = Rect.fromCenter(center: offset, width: screenW, height: screenH);
+      var rect = Rect.fromLTRB(0,0,screenW, screenH);
       // canvas.drawImage(this.bgImage, Offset(0, 0), Paint());
       paintImage(phoneImage!, rect, canvas, Paint(), BoxFit.contain);
+      canvas.clipRect(rect, doAntiAlias: false);
     }
     if (this.shadowsImage != null) {
-      var rect = Rect.fromCenter(center: offset, width: screenW, height: screenH);
+      //var rect = Rect.fromCenter(center: offset, width: screenW, height: screenH);
+      var rect = Rect.fromLTRB(0,0,screenW, screenH);
       // canvas.drawImage(this.bgImage, Offset(0, 0), Paint());
       paintImage(shadowsImage!, rect, canvas, Paint(), BoxFit.contain);
     }

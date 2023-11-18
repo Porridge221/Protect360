@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/preview.dart';
 
 class PreViewScreen extends StatelessWidget {
-  const PreViewScreen({super.key});
+  double offsetX = 0;
+  double offsetY = 0;
+  double zoom = 1;
+
+  PreViewScreen({super.key, required this.offsetX, required this.offsetY, required this.zoom});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
@@ -24,20 +28,20 @@ class PreViewScreen extends StatelessWidget {
                         children: [
                           FittedBox(
                             fit: BoxFit.contain,
-                            child: Preview(phoneType: 'Iphone 11 Pro'),
+                            child: Preview(phoneType: 'Iphone 11 Pro', offsetX: offsetX, offsetY: offsetY, zoom: zoom),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 30,
                           ),
                           FittedBox(
-                            child: Preview(phoneType: 'Galaxy_M52'),
+                            child: Preview(phoneType: 'Galaxy_M52', offsetX: offsetX, offsetY: offsetY, zoom: zoom),
                             fit: BoxFit.contain
                           ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Expanded(
@@ -47,14 +51,14 @@ class PreViewScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FittedBox(
-                            child: Preview(phoneType: 'Huawei_P50_Pro'),
+                            child: Preview(phoneType: 'Huawei_P50_Pro', offsetX: offsetX, offsetY: offsetY, zoom: zoom),
                             fit: BoxFit.contain
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 30,
                           ),
                           FittedBox(
-                            child: Preview(phoneType: 'iPhone_14_Pro_Max'),
+                            child: Preview(phoneType: 'iPhone_14_Pro_Max', offsetX: offsetX, offsetY: offsetY, zoom: zoom),
                             fit: BoxFit.contain
                           ),
                         ],
@@ -64,7 +68,7 @@ class PreViewScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             )
           ],
